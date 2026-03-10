@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const LINKEDIN_CLIENT_ID = process.env.LINKEDIN_CLIENT_ID;
-const LINKEDIN_CLIENT_SECRET = process.env.LINKEDIN_CLIENT_SECRET;
+const CLIENT_ID = process.env.Client_ID;
+const CLIENT_SECRET = process.env.Primary_Client_Secret;
 const BASE_URL = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : process.env.APP_URL || 'http://localhost:3000';
@@ -36,8 +36,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.redirect(302, '/auth?error=missing_code');
   }
 
-  if (!LINKEDIN_CLIENT_ID || !LINKEDIN_CLIENT_SECRET) {
-    console.error('LINKEDIN_CLIENT_ID ou LINKEDIN_CLIENT_SECRET não configurados');
+  if (!CLIENT_ID || !CLIENT_SECRET) {
+    console.error('Client_ID ou Primary_Client_Secret não configurados');
     res.setHeader('Set-Cookie', CLEAR_STATE_COOKIE);
     return res.redirect(302, '/auth?error=server_config');
   }
@@ -52,8 +52,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         grant_type: 'authorization_code',
         code,
         redirect_uri: redirectUri,
-        client_id: LINKEDIN_CLIENT_ID,
-        client_secret: LINKEDIN_CLIENT_SECRET,
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
       }),
     });
 

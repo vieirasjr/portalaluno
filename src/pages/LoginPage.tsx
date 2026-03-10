@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Input, Alert } from '../components/BaseUI';
 
-const LINKEDIN_CLIENT_ID = import.meta.env.VITE_LINKEDIN_CLIENT_ID || '86g440h70x7s0h';
-const LINKEDIN_SCOPES = 'openid profile email';
-
 export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('aluno');
   const [password, setPassword] = useState('123');
@@ -29,17 +26,7 @@ export const LoginPage: React.FC = () => {
   }, [searchParams]);
 
   const handleLinkedInLogin = () => {
-    const redirectUri = `${window.location.origin}/api/linkedin-callback`;
-    const state = crypto.randomUUID();
-    document.cookie = `linkedin_oauth_state=${state}; path=/; max-age=600; SameSite=Lax`;
-    const params = new URLSearchParams({
-      response_type: 'code',
-      client_id: LINKEDIN_CLIENT_ID,
-      redirect_uri: redirectUri,
-      scope: LINKEDIN_SCOPES,
-      state,
-    });
-    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params}`;
+    window.location.href = `${window.location.origin}/api/linkedin-auth`;
   };
 
   const handleLogin = (e: React.FormEvent) => {
