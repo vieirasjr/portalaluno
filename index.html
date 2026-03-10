@@ -3,20 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Portal do Aluno - Senac Minas</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" />
   </head>
   <body>
     <div id="root"></div>
-    <!-- VLibras antes do script - estrutura fora do #root para não travar componentes -->
-    <div vw class="enabled">
-      <div vw-access-button class="active"></div>
-      <div vw-plugin-wrapper>
-        <div class="vw-plugin-top-wrapper"></div>
+    <!-- VLibras: wrapper para posicionamento centralizado vertical no canto direito -->
+    <div id="vlibras-container">
+      <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+          <div class="vw-plugin-top-wrapper"></div>
+        </div>
       </div>
     </div>
     <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-      new window.VLibras.Widget('https://vlibras.gov.br/app');
+      try {
+        if (window.VLibras && document.querySelector('[vw]')) {
+          new window.VLibras.Widget('https://vlibras.gov.br/app');
+        }
+      } catch (e) {
+        console.warn('VLibras: inicialização indisponível', e);
+      }
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>

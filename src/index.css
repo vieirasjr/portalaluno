@@ -127,51 +127,54 @@ body {
   filter: grayscale(100%);
 }
 
-/* VLibras: botão nativo oculto - controle via janela de acessibilidade */
-[vw-access-button] {
-  display: none !important;
+/* VLibras: container absoluto - meio vertical, canto direito */
+#vlibras-container {
+  position: absolute !important;
+  top: 50% !important;
+  right: 24px !important;
+  transform: translateY(-50%) !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;
 }
 
-/* VLibras: garantir que plugin, tutorial e feedback abram fora/sobre os componentes */
+#vlibras-container [vw],
+#vlibras-container [vw-plugin-wrapper],
+#vlibras-container iframe {
+  pointer-events: auto !important;
+}
+
+/* VLibras: botão nativo oculto mas clicável - controle via janela de acessibilidade */
+[vw-access-button] {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: auto !important;
+  z-index: -1 !important;
+}
+
+/* VLibras: estrutura interna - sem posicionamento que interfira */
 [vw] {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 2147483647 !important; /* máximo - acima de tudo */
+  position: relative !important;
   overflow: visible !important;
   contain: none !important;
-  pointer-events: none !important; /* container não bloqueia - área vazia clicável */
-  display: flex !important;
-  align-items: center !important;   /* centraliza verticalmente */
-  justify-content: flex-end !important; /* alinha à direita */
-  padding-right: 24px !important;
 }
 
 [vw] [vw-plugin-wrapper],
-[vw] [vw-plugin-wrapper] *,
-[vw] iframe {
-  pointer-events: auto !important; /* plugin recebe cliques */
-}
-
 .vw-plugin-wrapper {
-  z-index: 2147483647 !important;
+  position: relative !important;
   overflow: visible !important;
   contain: none !important;
-  flex-shrink: 0 !important;
-  /* remove posicionamento absoluto que o VLibras aplica */
-  position: relative !important;
   top: auto !important;
   left: auto !important;
   right: auto !important;
   bottom: auto !important;
   transform: none !important;
+  max-height: 90vh !important;
 }
 
-/* Tutorial/feedback do VLibras - garantir que não fiquem presos */
+/* Tutorial/feedback do VLibras */
 [vw] [class*="vw-"],
 [vw] [class*="vpw-"] {
   overflow: visible !important;

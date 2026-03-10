@@ -4,7 +4,9 @@ import { cn } from './BaseUI';
 
 const triggerVlibrasButton = () => {
   const btn = document.querySelector('[vw-access-button]');
-  if (btn) (btn as HTMLElement).click();
+  if (btn) {
+    (btn as HTMLElement).dispatchEvent(new MouseEvent('click', { bubbles: true, view: window }));
+  }
 };
 
 export const AccessibilityBar: React.FC = () => {

@@ -25,10 +25,6 @@ export const LoginPage: React.FC = () => {
     }
   }, [searchParams]);
 
-  const handleLinkedInLogin = () => {
-    window.location.href = `${window.location.origin}/api/linkedin-auth`;
-  };
-
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -97,14 +93,13 @@ export const LoginPage: React.FC = () => {
           <div className="h-px bg-slate-200 flex-1"></div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleLinkedInLogin}
-          className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[#0A66C2] bg-[#0A66C2] text-white hover:bg-[#004182] hover:border-[#004182] transition-all font-semibold text-sm"
+        <a
+          href="/api/linkedin-auth"
+          className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[#0A66C2] bg-[#0A66C2] text-white hover:bg-[#004182] hover:border-[#004182] transition-all font-semibold text-sm no-underline"
         >
           <i className="bi bi-linkedin text-xl"></i>
           Entrar com LinkedIn
-        </button>
+        </a>
       </form>
 
       <div className="text-center">
