@@ -1,13 +1,46 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Input, Alert } from '../components/BaseUI';
+
+const LINKEDIN_CLIENT_ID = import.meta.env.VITE_LINKEDIN_CLIENT_ID || '86g440h70x7s0h';
+const LINKEDIN_SCOPES = 'openid profile email';
 
 export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('aluno');
   const [password, setPassword] = useState('123');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const err = searchParams.get('error');
+    if (err) {
+      const messages: Record<string, string> = {
+        missing_code: 'Autorização incompleta. Tente novamente.',
+        token_exchange: 'Erro ao conectar com LinkedIn. Tente novamente.',
+        userinfo: 'Não foi possível obter seus dados do LinkedIn.',
+        server_config: 'Login com LinkedIn temporariamente indisponível.',
+        server_error: 'Erro no servidor. Tente mais tarde.',
+        invalid_state: 'Sessão inválida. Tente novamente.',
+      };
+      setError(messages[err] || 'Erro ao entrar com LinkedIn.');
+    }
+  }, [searchParams]);
+
+  const handleLinkedInLogin = () => {
+    const redirectUri = `${window.location.origin}/api/linkedin-callback`;
+    const state = crypto.randomUUID();
+    document.cookie = `linkedin_oauth_state=${state}; path=/; max-age=600; SameSite=Lax`;
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: LINKEDIN_CLIENT_ID,
+      redirect_uri: redirectUri,
+      scope: LINKEDIN_SCOPES,
+      state,
+    });
+    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params}`;
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +112,7 @@ export const LoginPage: React.FC = () => {
 
         <button
           type="button"
-          onClick={() => navigate('/dashboard')}
+          onClick={handleLinkedInLogin}
           className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[#0A66C2] bg-[#0A66C2] text-white hover:bg-[#004182] hover:border-[#004182] transition-all font-semibold text-sm"
         >
           <i className="bi bi-linkedin text-xl"></i>
