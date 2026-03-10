@@ -17,15 +17,42 @@
         </div>
       </div>
     </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
     <script>
-      try {
-        if (window.VLibras && document.querySelector('[vw]')) {
-          new window.VLibras.Widget('https://vlibras.gov.br/app');
+      window.__loadVLibras = function(callback) {
+        if (window.VLibras) {
+          try {
+            var vw = document.querySelector('[vw]');
+            if (vw) new window.VLibras.Widget('https://vlibras.gov.br/app');
+            callback && callback(true);
+          } catch (e) {
+            console.warn('VLibras: inicialização indisponível', e);
+            callback && callback(false);
+          }
+          return;
         }
-      } catch (e) {
-        console.warn('VLibras: inicialização indisponível', e);
-      }
+        var s = document.createElement('script');
+        s.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+        s.async = true;
+        s.onload = function() {
+          setTimeout(function() {
+            try {
+              if (window.VLibras) {
+                var vw = document.querySelector('[vw]');
+                if (vw) new window.VLibras.Widget('https://vlibras.gov.br/app');
+              }
+              callback && callback(true);
+            } catch (e) {
+              console.warn('VLibras: inicialização indisponível', e);
+              callback && callback(false);
+            }
+          }, 300);
+        };
+        s.onerror = function() {
+          console.warn('VLibras: script não carregou. O recurso não estará disponível.');
+          callback && callback(false);
+        };
+        document.body.appendChild(s);
+      };
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>

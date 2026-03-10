@@ -3,15 +3,28 @@ import { useAccessibility } from '../contexts/AccessibilityContext';
 import { cn } from './BaseUI';
 
 const triggerVlibrasButton = () => {
-  const btn = document.querySelector('[vw-access-button]');
-  if (btn) {
-    (btn as HTMLElement).dispatchEvent(new MouseEvent('click', { bubbles: true, view: window }));
+  try {
+    const btn = document.querySelector('[vw-access-button]');
+    if (btn && btn instanceof HTMLElement) {
+      btn.dispatchEvent(new MouseEvent('click', { bubbles: true, view: window }));
+    }
+  } catch {
+    // VLibras pode não estar carregado ou elementos podem ter sido removidos
   }
 };
+
+declare global {
+  interface Window {
+    __loadVLibras?: (callback?: (ok: boolean) => void) => void;
+  }
+}
 
 export const AccessibilityBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVlibrasOpen, setIsVlibrasOpen] = useState(false);
+  const [vlibrasReady, setVlibrasReady] = useState(false);
+  const [vlibrasLoading, setVlibrasLoading] = useState(false);
+  const [vlibrasError, setVlibrasError] = useState(false);
   const { 
     increaseFontSize, 
     decreaseFontSize, 
@@ -26,14 +39,18 @@ export const AccessibilityBar: React.FC = () => {
   // Detectar quando o usuário fecha o plugin VLibras pelo X
   useEffect(() => {
     const wrapper = document.querySelector('[vw-plugin-wrapper]');
-    if (!wrapper) return;
+    if (!wrapper || !(wrapper instanceof HTMLElement)) return;
 
     const isPluginVisible = () => {
-      const el = wrapper as HTMLElement;
-      const style = window.getComputedStyle(el);
-      if (style.display === 'none' || style.visibility === 'hidden') return false;
-      const rect = el.getBoundingClientRect();
-      return rect.width > 0 && rect.height > 0;
+      try {
+        if (!document.body.contains(wrapper)) return false;
+        const style = window.getComputedStyle(wrapper);
+        if (style.display === 'none' || style.visibility === 'hidden') return false;
+        const rect = wrapper.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+      } catch {
+        return false;
+      }
     };
 
     const checkPluginClosed = () => {
@@ -43,7 +60,12 @@ export const AccessibilityBar: React.FC = () => {
     };
 
     const observer = new MutationObserver(checkPluginClosed);
-    observer.observe(wrapper, { attributes: true, attributeFilter: ['style', 'class'], subtree: true });
+    try {
+      observer.observe(wrapper, { attributes: true, attributeFilter: ['style', 'class'], subtree: true });
+    } catch {
+      observer.disconnect();
+      return;
+    }
 
     const interval = setInterval(checkPluginClosed, 400);
     return () => {
@@ -57,11 +79,26 @@ export const AccessibilityBar: React.FC = () => {
       triggerVlibrasButton();
       setIsVlibrasOpen(false);
     } else {
-      triggerVlibrasButton();
-      setIsOpen(false);
-      setIsVlibrasOpen(true);
+      if (!vlibrasReady && !vlibrasLoading && window.__loadVLibras) {
+        setVlibrasLoading(true);
+        setVlibrasError(false);
+        window.__loadVLibras((ok) => {
+          setVlibrasLoading(false);
+          setVlibrasReady(ok);
+          if (!ok) setVlibrasError(true);
+          if (ok) {
+            setTimeout(() => triggerVlibrasButton(), 400);
+            setIsOpen(false);
+            setIsVlibrasOpen(true);
+          }
+        });
+      } else if (vlibrasReady) {
+        triggerVlibrasButton();
+        setIsOpen(false);
+        setIsVlibrasOpen(true);
+      }
     }
-  }, [isVlibrasOpen]);
+  }, [isVlibrasOpen, vlibrasReady, vlibrasLoading]);
 
   return (
     <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3">
@@ -124,18 +161,23 @@ export const AccessibilityBar: React.FC = () => {
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recursos</p>
             <button 
               onClick={handleVlibrasToggle}
+              disabled={vlibrasLoading}
               className={cn(
                 "w-full p-3 rounded-xl border flex items-center gap-3 transition-all",
                 isVlibrasOpen 
                   ? "bg-senac-blue-500 text-white border-senac-blue-500" 
-                  : "bg-white text-slate-700 border-slate-200 hover:border-senac-blue-500"
+                  : "bg-white text-slate-700 border-slate-200 hover:border-senac-blue-500",
+                vlibrasLoading && "opacity-70 cursor-wait"
               )}
               aria-pressed={isVlibrasOpen}
+              aria-busy={vlibrasLoading}
               aria-label={isVlibrasOpen ? "Fechar tradutor VLibras" : "Abrir tradutor VLibras"}
             >
               <i className="bi bi-signpost-split"></i>
-              <span className="font-medium text-sm">VLibras (Libras)</span>
-              {isVlibrasOpen && <i className="bi bi-check-lg ml-auto"></i>}
+              <span className="font-medium text-sm">
+                {vlibrasLoading ? "Carregando VLibras…" : vlibrasError ? "VLibras indisponível (tente novamente)" : "VLibras (Libras)"}
+              </span>
+              {isVlibrasOpen && !vlibrasLoading && <i className="bi bi-check-lg ml-auto"></i>}
             </button>
           </div>
 
