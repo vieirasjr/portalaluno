@@ -13,7 +13,7 @@ export const ApiFallback: React.FC = () => (
         API não disponível em modo desenvolvimento
       </h1>
       <p className="text-sm text-slate-600">
-        Para testar o login com LinkedIn localmente, execute <code className="bg-slate-200 px-1.5 py-0.5 rounded text-xs">vercel dev</code> em vez de <code className="bg-slate-200 px-1.5 py-0.5 rounded text-xs">npm run dev</code>.
+        Para testar o login com LinkedIn localmente, execute <code className="bg-slate-200 px-1.5 py-0.5 rounded text-xs">npm run dev:vercel</code> em vez de <code className="bg-slate-200 px-1.5 py-0.5 rounded text-xs">npm run dev</code>.
       </p>
       <p className="text-sm text-slate-600">
         Em produção, o login com LinkedIn funciona normalmente.
