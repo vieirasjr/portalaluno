@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Input, Alert } from '../components/BaseUI';
 
 export const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('aluno');
+  const [password, setPassword] = useState('123');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -70,26 +70,27 @@ export const LoginPage: React.FC = () => {
         >
           Entrar no Portal
         </Button>
+
+        <div className="flex items-center gap-3 py-1">
+          <div className="h-px bg-slate-200 flex-1"></div>
+          <span className="text-xs text-slate-400 font-medium">ou</span>
+          <div className="h-px bg-slate-200 flex-1"></div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => navigate('/dashboard')}
+          className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[#0A66C2] bg-[#0A66C2] text-white hover:bg-[#004182] hover:border-[#004182] transition-all font-semibold text-sm"
+        >
+          <i className="bi bi-linkedin text-xl"></i>
+          Entrar com LinkedIn
+        </button>
       </form>
 
-      <div className="text-center space-y-2">
+      <div className="text-center">
         <p className="text-xs text-slate-400">
           Problemas com o acesso? <button className="text-senac-blue-500 hover:underline font-semibold">Fale com o suporte</button>
         </p>
-        
-        <div className="flex items-center gap-3 py-1">
-          <div className="h-px bg-slate-100 flex-1"></div>
-          <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Usuário de Teste</span>
-          <div className="h-px bg-slate-100 flex-1"></div>
-        </div>
-
-        <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
-          <p className="text-xs text-slate-500">Para testar o portal, utilize:</p>
-          <div className="flex items-center justify-center gap-4">
-            <div className="text-xs font-bold text-slate-700">Usuário: <span className="text-senac-blue-500">aluno</span></div>
-            <div className="text-xs font-bold text-slate-700">Senha: <span className="text-senac-blue-500">123</span></div>
-          </div>
-        </div>
       </div>
     </div>
   );

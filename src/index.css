@@ -127,29 +127,55 @@ body {
   filter: grayscale(100%);
 }
 
-/* Position VLibras button next to accessibility button (bottom-6 right-6, button 56px) */
+/* VLibras: botão nativo oculto - controle via janela de acessibilidade */
 [vw-access-button] {
-  display: block !important;
-  bottom: 88px !important; /* 24px + 56px + 8px gap - acima do botão de acessibilidade */
-  right: 24px !important;
-  top: auto !important;
-  left: auto !important;
-  transition: none !important;
-  transform: none !important;
-  animation: none !important;
+  display: none !important;
 }
 
-[vw-access-button]:hover,
-[vw-access-button]:focus,
-[vw-access-button]:active,
-[vw-access-button] * {
-  transform: none !important;
-  transition: none !important;
-  animation: none !important;
+/* VLibras: garantir que plugin, tutorial e feedback abram fora/sobre os componentes */
+[vw] {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 2147483647 !important; /* máximo - acima de tudo */
+  overflow: visible !important;
+  contain: none !important;
+  pointer-events: none !important; /* container não bloqueia - área vazia clicável */
+  display: flex !important;
+  align-items: center !important;   /* centraliza verticalmente */
+  justify-content: flex-end !important; /* alinha à direita */
+  padding-right: 24px !important;
+}
+
+[vw] [vw-plugin-wrapper],
+[vw] [vw-plugin-wrapper] *,
+[vw] iframe {
+  pointer-events: auto !important; /* plugin recebe cliques */
 }
 
 .vw-plugin-wrapper {
-  z-index: 9999 !important;
+  z-index: 2147483647 !important;
+  overflow: visible !important;
+  contain: none !important;
+  flex-shrink: 0 !important;
+  /* remove posicionamento absoluto que o VLibras aplica */
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+}
+
+/* Tutorial/feedback do VLibras - garantir que não fiquem presos */
+[vw] [class*="vw-"],
+[vw] [class*="vpw-"] {
+  overflow: visible !important;
+  contain: none !important;
 }
 
 /* Accessibility improvements */

@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAccessibility } from '../contexts/AccessibilityContext';
 import { cn } from './BaseUI';
 
+const triggerVlibrasButton = () => {
+  const btn = document.querySelector('[vw-access-button]');
+  if (btn) (btn as HTMLElement).click();
+};
+
 export const AccessibilityBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVlibrasOpen, setIsVlibrasOpen] = useState(false);
   const { 
     increaseFontSize, 
     decreaseFontSize, 
@@ -14,6 +20,46 @@ export const AccessibilityBar: React.FC = () => {
     grayscale,
     resetAll
   } = useAccessibility();
+
+  // Detectar quando o usuário fecha o plugin VLibras pelo X
+  useEffect(() => {
+    const wrapper = document.querySelector('[vw-plugin-wrapper]');
+    if (!wrapper) return;
+
+    const isPluginVisible = () => {
+      const el = wrapper as HTMLElement;
+      const style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden') return false;
+      const rect = el.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    };
+
+    const checkPluginClosed = () => {
+      if (isVlibrasOpen && !isPluginVisible()) {
+        setIsVlibrasOpen(false);
+      }
+    };
+
+    const observer = new MutationObserver(checkPluginClosed);
+    observer.observe(wrapper, { attributes: true, attributeFilter: ['style', 'class'], subtree: true });
+
+    const interval = setInterval(checkPluginClosed, 400);
+    return () => {
+      observer.disconnect();
+      clearInterval(interval);
+    };
+  }, [isVlibrasOpen]);
+
+  const handleVlibrasToggle = useCallback(() => {
+    if (isVlibrasOpen) {
+      triggerVlibrasButton();
+      setIsVlibrasOpen(false);
+    } else {
+      triggerVlibrasButton();
+      setIsOpen(false);
+      setIsVlibrasOpen(true);
+    }
+  }, [isVlibrasOpen]);
 
   return (
     <div className="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-3">
@@ -69,6 +115,26 @@ export const AccessibilityBar: React.FC = () => {
                 <span className="text-[10px] font-bold">A+</span>
               </button>
             </div>
+          </div>
+
+          {/* VLibras - Tradutor de Libras */}
+          <div>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Recursos</p>
+            <button 
+              onClick={handleVlibrasToggle}
+              className={cn(
+                "w-full p-3 rounded-xl border flex items-center gap-3 transition-all",
+                isVlibrasOpen 
+                  ? "bg-senac-blue-500 text-white border-senac-blue-500" 
+                  : "bg-white text-slate-700 border-slate-200 hover:border-senac-blue-500"
+              )}
+              aria-pressed={isVlibrasOpen}
+              aria-label={isVlibrasOpen ? "Fechar tradutor VLibras" : "Abrir tradutor VLibras"}
+            >
+              <i className="bi bi-signpost-split"></i>
+              <span className="font-medium text-sm">VLibras (Libras)</span>
+              {isVlibrasOpen && <i className="bi bi-check-lg ml-auto"></i>}
+            </button>
           </div>
 
           {/* Visual Modes */}

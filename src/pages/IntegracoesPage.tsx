@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Badge, Button, Input } from '../components/BaseUI';
 
 export const IntegracoesPage: React.FC = () => {
+  const [linkedInConnected, setLinkedInConnected] = useState(false);
+
   const systems = [
     { name: 'AVA (Ambiente Virtual)', desc: 'Acesse suas aulas online e materiais.', icon: 'laptop', color: 'bg-blue-500' },
     { name: 'Biblioteca Digital', desc: 'Milhares de livros e periódicos online.', icon: 'book', color: 'bg-emerald-500' },
     { name: 'Office 365', desc: 'Word, Excel, PowerPoint e Teams.', icon: 'microsoft', color: 'bg-indigo-500' },
     { name: 'Email Acadêmico', desc: 'Seu canal oficial de comunicação.', icon: 'envelope-at', color: 'bg-senac-orange-500' },
+    { name: 'LinkedIn', desc: 'Conecte seu perfil profissional e acesse vagas.', icon: 'linkedin', color: 'bg-[#0A66C2]' },
     { name: 'Portal de Estágios', desc: 'Vagas e oportunidades de carreira.', icon: 'briefcase', color: 'bg-purple-500' },
     { name: 'Carteirinha Digital', desc: 'Sua identificação estudantil no celular.', icon: 'person-badge', color: 'bg-senac-blue-500' },
   ];
@@ -35,6 +38,53 @@ export const IntegracoesPage: React.FC = () => {
           <Button className="bg-senac-orange-500 hover:bg-senac-orange-600 px-8 shadow-lg shadow-senac-orange-500/30">
             Acessar Outlook
           </Button>
+        </div>
+      </Card>
+
+      {/* LinkedIn Integration */}
+      <Card className="bg-gradient-to-r from-[#0A66C2] to-[#004182] text-white p-8 border-none overflow-hidden relative shadow-xl shadow-[#0A66C2]/20">
+        <div className="absolute -right-12 -top-12 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+          <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 backdrop-blur-sm border border-white/10">
+            <i className="bi bi-linkedin text-4xl text-white"></i>
+          </div>
+          <div className="space-y-2 text-center md:text-left flex-1">
+            <h2 className="text-2xl font-bold">
+              {linkedInConnected ? 'Sua conta LinkedIn está conectada!' : 'Conecte sua conta LinkedIn'}
+            </h2>
+            <p className="text-white/90 max-w-lg">
+              {linkedInConnected
+                ? 'Seu perfil está vinculado ao Portal do Aluno. Atualize suas informações profissionais e expanda sua rede.'
+                : 'Vincule seu perfil profissional ao Portal do Aluno para acessar vagas de estágio, networking e oportunidades de carreira.'}
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            {linkedInConnected ? (
+              <>
+                <Button
+                  onClick={() => setLinkedInConnected(false)}
+                  className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6"
+                >
+                  Desconectar
+                </Button>
+                <Button className="bg-white text-[#0A66C2] hover:bg-white/90 px-6">
+                  Ir para LinkedIn
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => setLinkedInConnected(true)}
+                  className="bg-white text-[#0A66C2] hover:bg-white/90 px-6 shadow-lg"
+                >
+                  Conectar conta
+                </Button>
+                <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30 px-6">
+                  Criar conta nova
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </Card>
 
