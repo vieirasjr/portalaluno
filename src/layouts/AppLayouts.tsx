@@ -19,7 +19,7 @@ export const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
           <div className="p-8">
             <div className="flex justify-center mb-8">
               <img 
-                src="/assets/senacmg.svg" 
+                src="/assets/senacmg.png" 
                 alt="Logo Senac Minas - Portal do Aluno" 
                 className="h-16 w-auto object-contain"
               />
@@ -66,7 +66,7 @@ export const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
       >
         <div className="p-6 flex items-center justify-center">
           <img 
-            src="/assets/senacmg.svg" 
+            src="/assets/senacmg.png" 
             alt="Logo Senac" 
             className={cn("h-10 w-auto object-contain brightness-0 invert", !isSidebarOpen && "mx-auto")}
           />
@@ -120,7 +120,7 @@ export const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
           <div className="p-6 flex items-center justify-between">
             <div className="flex items-center">
               <img 
-                src="/assets/senacmg.svg" 
+                src="/assets/senacmg.png" 
                 alt="Logo Senac" 
                 className="h-10 w-auto object-contain brightness-0 invert"
               />
@@ -190,7 +190,7 @@ export const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
               <i className="bi bi-list text-2xl" aria-hidden="true"></i>
             </button>
             <div className="flex items-center gap-3">
-              <img src="/assets/senacmg.svg" alt="Logo Senac" className="h-8 w-auto lg:hidden" />
+              <img src="/assets/senacmg.png" alt="Logo Senac" className="h-8 w-auto lg:hidden" />
               <h2 className="font-bold text-slate-800 hidden sm:block">Portal do Aluno</h2>
             </div>
           </div>
