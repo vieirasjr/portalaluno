@@ -2,9 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const CLIENT_ID = process.env.Client_ID;
 const CLIENT_SECRET = process.env.Primary_Client_Secret;
-const BASE_URL = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : process.env.APP_URL || 'http://localhost:3000';
+// APP_URL fixa a URL para OAuth (evita preview URLs que mudam a cada deploy)
+const BASE_URL = process.env.APP_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+  || 'http://localhost:3000';
 
 const CLEAR_STATE_COOKIE = 'linkedin_oauth_state=; path=/; max-age=0';
 

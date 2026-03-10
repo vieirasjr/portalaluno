@@ -2,9 +2,10 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { randomUUID } from 'crypto';
 
 const CLIENT_ID = process.env.Client_ID;
-const BASE_URL = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : process.env.APP_URL || 'http://localhost:3000';
+// APP_URL fixa a URL para OAuth (evita preview URLs que mudam a cada deploy)
+const BASE_URL = process.env.APP_URL
+  || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+  || 'http://localhost:3000';
 
 const LINKEDIN_SCOPES = 'openid profile email';
 

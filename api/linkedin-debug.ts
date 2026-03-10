@@ -6,9 +6,9 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
  * REMOVER ou desativar após configurar.
  */
 export default function handler(_req: VercelRequest, res: VercelResponse) {
-  const BASE_URL = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.APP_URL || 'http://localhost:3000';
+  const BASE_URL = process.env.APP_URL
+    || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
+    || 'http://localhost:3000';
 
   const redirectUri = `${BASE_URL}/api/linkedin-callback`;
 
@@ -16,7 +16,8 @@ export default function handler(_req: VercelRequest, res: VercelResponse) {
   res.status(200).json({
     redirect_uri: redirectUri,
     base_url: BASE_URL,
+    app_url: process.env.APP_URL || '(não definido)',
     vercel_url: process.env.VERCEL_URL || '(não definido)',
-    instrucao: 'Adicione este redirect_uri EXATAMENTE nas Authorized redirect URLs do LinkedIn',
+    instrucao: 'Adicione este redirect_uri EXATAMENTE nas Authorized redirect URLs do LinkedIn. Se APP_URL não estiver definida, defina APP_URL na Vercel.',
   });
 }
