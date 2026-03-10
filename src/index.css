@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Senac Minas Colors */
+  --color-senac-blue-50: #E8F4FC;
+  --color-senac-blue-100: #D0E8F8;
+  --color-senac-blue-200: #A0D1F1;
+  --color-senac-blue-300: #6FB9EA;
+  --color-senac-blue-400: #3F9EE3;
+  --color-senac-blue-500: #002855;
+  --color-senac-blue-600: #002044;
+  --color-senac-blue-700: #001833;
+  --color-senac-blue-800: #001022;
+  --color-senac-blue-900: #000811;
+
+  --color-senac-orange-50: #FFF5EB;
+  --color-senac-orange-100: #FFE6CC;
+  --color-senac-orange-200: #FFCC99;
+  --color-senac-orange-300: #FFB366;
+  --color-senac-orange-400: #FF9933;
+  --color-senac-orange-500: #FF6B00;
+  --color-senac-orange-600: #CC5600;
+  --color-senac-orange-700: #994000;
+  --color-senac-orange-800: #662B00;
+  --color-senac-orange-900: #331500;
+
+  --color-senac-dark-50: #F0F4F8;
+  --color-senac-dark-100: #E1E9F0;
+  --color-senac-dark-200: #C3D3E1;
+  --color-senac-dark-300: #8A9BAE;
+  --color-senac-dark-400: #5A6B7A;
+  --color-senac-dark-500: #002855;
+  --color-senac-dark-600: #002044;
+  --color-senac-dark-700: #001833;
+  --color-senac-dark-800: #001022;
+  --color-senac-dark-900: #0A1628;
+
+  --color-senac-success: #22C55E;
+  --color-senac-error: #C8003B;
+  --color-senac-warning: #FF6B00;
+  --color-senac-info: #002855;
+
+  /* Reduced Border Radius (50% of default Tailwind values) */
+  --radius: 0.125rem;       /* Default rounded (4px -> 2px) */
+  --radius-xs: 0.0625rem;   /* rounded-xs (2px -> 1px) */
+  --radius-sm: 0.0625rem;   /* rounded-sm (2px -> 1px) */
+  --radius-md: 0.1875rem;   /* rounded-md (6px -> 3px) */
+  --radius-lg: 0.25rem;     /* rounded-lg (8px -> 4px) */
+  --radius-xl: 0.375rem;    /* rounded-xl (12px -> 6px) */
+  --radius-2xl: 0.5rem;     /* rounded-2xl (16px -> 8px) */
+  --radius-3xl: 0.75rem;    /* rounded-3xl (24px -> 12px) */
+  --radius-4xl: 1rem;       /* rounded-4xl (32px -> 16px) */
+}
+
+body {
+  @apply bg-slate-50 text-senac-dark-900 font-sans transition-colors duration-200;
+}
+
+.high-contrast {
+  --color-senac-blue-500: #000000;
+  --color-senac-orange-500: #FFFF00;
+  --color-slate-50: #000000;
+  --color-white: #000000;
+  --color-slate-800: #FFFFFF;
+  --color-slate-500: #FFFFFF;
+  --color-slate-200: #FFFFFF;
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+.high-contrast * {
+  border-color: #FFFFFF !important;
+  outline-color: #FFFF00 !important;
+}
+
+.high-contrast button, 
+.high-contrast a {
+  background-color: #000000 !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
+}
+
+.high-contrast button:hover, 
+.high-contrast a:hover {
+  background-color: #FFFF00 !important;
+  color: #000000 !important;
+}
+
+.high-contrast .bg-white,
+.high-contrast .bg-slate-50,
+.high-contrast aside,
+.high-contrast header,
+.high-contrast main,
+.high-contrast .bg-slate-100 {
+  background-color: #000000 !important;
+}
+
+.high-contrast .text-slate-800,
+.high-contrast .text-slate-500,
+.high-contrast .text-senac-dark-900,
+.high-contrast .text-slate-600,
+.high-contrast .text-slate-700,
+.high-contrast p,
+.high-contrast h1,
+.high-contrast h2,
+.high-contrast h3,
+.high-contrast span,
+.high-contrast i {
+  color: #FFFFFF !important;
+}
+
+.high-contrast .text-senac-orange-500 {
+  color: #FFFF00 !important;
+}
+
+.high-contrast input {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #FFFFFF !important;
+}
+
+.grayscale-mode {
+  filter: grayscale(100%);
+}
+
+/* Position VLibras button above our custom accessibility button */
+[vw-access-button] {
+  display: block !important;
+  bottom: 100px !important;
+  right: 24px !important;
+  top: auto !important;
+  left: auto !important;
+}
+
+.vw-plugin-wrapper {
+  z-index: 9999 !important;
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
