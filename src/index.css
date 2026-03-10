@@ -127,13 +127,25 @@ body {
   filter: grayscale(100%);
 }
 
-/* Position VLibras button above our custom accessibility button */
+/* Position VLibras button next to accessibility button (bottom-6 right-6, button 56px) */
 [vw-access-button] {
   display: block !important;
-  bottom: 100px !important;
+  bottom: 88px !important; /* 24px + 56px + 8px gap - acima do botão de acessibilidade */
   right: 24px !important;
   top: auto !important;
   left: auto !important;
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+[vw-access-button]:hover,
+[vw-access-button]:focus,
+[vw-access-button]:active,
+[vw-access-button] * {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 .vw-plugin-wrapper {

@@ -26,13 +26,13 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold text-senac-blue-500">Acesse seu Portal</h1>
+    <div className="space-y-4">
+      <div className="text-center space-y-1">
+        <h1 className="text-xl font-bold text-senac-blue-500">Acesse seu Portal</h1>
         <p className="text-sm text-slate-500">Insira suas credenciais para continuar</p>
       </div>
 
-      <form onSubmit={handleLogin} className="space-y-4">
+      <form onSubmit={handleLogin} className="space-y-3">
         <Input
           label="Usuário"
           placeholder="Digite seu usuário"
@@ -72,18 +72,18 @@ export const LoginPage: React.FC = () => {
         </Button>
       </form>
 
-      <div className="text-center space-y-4">
+      <div className="text-center space-y-2">
         <p className="text-xs text-slate-400">
           Problemas com o acesso? <button className="text-senac-blue-500 hover:underline font-semibold">Fale com o suporte</button>
         </p>
         
-        <div className="flex items-center gap-4 py-2">
+        <div className="flex items-center gap-3 py-1">
           <div className="h-px bg-slate-100 flex-1"></div>
           <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">Usuário de Teste</span>
           <div className="h-px bg-slate-100 flex-1"></div>
         </div>
 
-        <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 space-y-1">
+        <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
           <p className="text-xs text-slate-500">Para testar o portal, utilize:</p>
           <div className="flex items-center justify-center gap-4">
             <div className="text-xs font-bold text-slate-700">Usuário: <span className="text-senac-blue-500">aluno</span></div>

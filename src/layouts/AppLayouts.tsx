@@ -16,17 +16,17 @@ export const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
       
       <div className="w-full max-w-md relative z-10">
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <div className="p-8">
-            <div className="flex justify-center mb-8">
+          <div className="p-5">
+            <div className="flex justify-center mb-4">
               <img 
                 src="/assets/senacmg.png" 
                 alt="Logo Senac Minas - Portal do Aluno" 
-                className="h-16 w-auto object-contain"
+                className="h-12 w-auto object-contain"
               />
             </div>
             {children}
           </div>
-          <div className="bg-slate-50 p-6 border-t border-slate-100 text-center">
+          <div className="bg-slate-50 p-4 border-t border-slate-100 text-center">
             <p className="text-xs text-slate-500">
               &copy; 2026 Senac Minas - Portal do Aluno. Todos os direitos reservados.
             </p>
